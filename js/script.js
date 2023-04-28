@@ -1,8 +1,9 @@
 const texto = document.getElementById("itexto");
 const buscar = document.getElementById("ibuscar");
 const resposta = document.getElementById("iresposta");
+const grafico = document.getElementById("grafico").getContext("2d");
 
-function buscarBrl() {
+(function () {
   fetch(
     `https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/1?formato=json`
   )
@@ -11,11 +12,11 @@ function buscarBrl() {
       if (data.erro) {
         alert("ERRO");
       } else {
-        const real = data[0].valor;
+        let real = data[0].valor;
         buscarBitcoin(real);
       }
     });
-}
+})();
 
 function buscarBitcoin(real) {
   fetch(
@@ -26,23 +27,47 @@ function buscarBitcoin(real) {
       if (data.erro) {
         alert("ERRO!");
       } else {
-        const bitcoinLast = Object.keys(
+        let bitcoinLast = Object.keys(
           data["Time Series (Digital Currency Daily)"]
         )[0];
-        const ultimoPreco =
+        let ultimoPreco =
           data["Time Series (Digital Currency Daily)"][bitcoinLast][
             "4b. close (USD)"
           ];
-        const preçoNumber = Number(ultimoPreco);
-        const precoBrl = (preçoNumber * real).toLocaleString("pt-BR", {
+        let preçoNumber = Number(ultimoPreco);
+        let precoBrl = (preçoNumber * real).toLocaleString("pt-BR", {
           style: "currency",
           currency: "BRL",
         });
         resposta.innerHTML = `O preço do bitcoin hoje é: ${precoBrl}`;
+        atualizarPreço(precoBrl)
       }
     });
 }
 
-buscar.addEventListener("click", function () {
-  buscarBrl();
-});
+function atualizarPreço(precoBrl) {
+  let precoBrlBtc = precoBrl;
+  const meuGrafico = new Chart(grafico, {
+    type: "line",
+    data: {
+      labels: ["teste"],
+      datasets: [
+        {
+          label: precoBrlBtc,
+          data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
