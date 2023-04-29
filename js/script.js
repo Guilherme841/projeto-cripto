@@ -1,6 +1,3 @@
-const texto = document.getElementById("itexto");
-const buscar = document.getElementById("ibuscar");
-const resposta = document.getElementById("iresposta");
 const grafico = document.getElementById("grafico").getContext("2d");
 
 (function () {
@@ -41,29 +38,29 @@ function buscarBitcoin(real) {
         );
 
         let precosBitcoinBrl = precos.map((precoUsd) => {
-          precoUsd = (precoUsd * real)
+          precoUsd = precoUsd * precoBrl;
           return precoUsd;
         });
-
-        let tempos = datas.map((date) => new Date(date).toLocaleDateString());
+        
+        // let tempos = datas.map((date) => new Date(date).toLocaleString("pt-BR"));
 
         const chartData = {
-          labels: tempos,
+          labels: datas,
           datasets: [
             {
               label: "Preço do Bitcoin",
               data: precosBitcoinBrl,
               backgroundColor: "rgba(255, 99, 132, 0.2)",
               borderColor: "rgba(255, 99, 132, 1)",
-              borderWidth: 1,
+              borderWidth: 3,
+              pointRadius: 6,
             },
           ],
         };
 
-        // Obtenha o contexto do canvas do gráfico
         const grafico = document.getElementById("grafico").getContext("2d");
+        Chart.defaults.font.size = 16;
 
-        // Crie um novo gráfico de linha com o Chart.js
         const meuGrafico = new Chart(grafico, {
           type: "line",
           data: chartData,

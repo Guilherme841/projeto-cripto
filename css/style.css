@@ -14,5 +14,6 @@ div {
     margin-bottom: 10px;
     padding-bottom: 2px;
     padding: 10px;
-    font-size: 1.5em;
+    max-width: 900px;
 }
+
