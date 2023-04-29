@@ -59,7 +59,7 @@ function buscarBitcoin(real) {
         };
 
         const grafico = document.getElementById("grafico").getContext("2d");
-        Chart.defaults.font.size = 16;
+        Chart.defaults.font.size = 12;
 
         const meuGrafico = new Chart(grafico, {
           type: "line",

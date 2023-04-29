@@ -14,11 +14,8 @@ main {
     background-color: rgb(130, 209, 255);
 }
 
-div {
-    margin-bottom: 10px;
-    padding-bottom: 2px;
-    padding: 10px;
-    max-width: 900px;
-    max-height: 900px;
+#containerGrafico {
+    max-width: 800px;
+    height: 800px;
+    padding: 20px;
 }
-
