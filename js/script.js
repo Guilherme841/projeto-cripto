@@ -18,7 +18,7 @@ const grafico = document.getElementById("grafico").getContext("2d");
 function buscarBitcoin(real) {
   var precoBrl = real;
 
-  let dias = 7;
+  let dias = 5;
   fetch(
     `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=4V0TJJQB3286WVE8`
   )
@@ -41,7 +41,7 @@ function buscarBitcoin(real) {
           precoUsd = precoUsd * precoBrl;
           return precoUsd;
         });
-        
+
         // let tempos = datas.map((date) => new Date(date).toLocaleString("pt-BR"));
 
         const chartData = {
