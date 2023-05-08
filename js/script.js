@@ -1,4 +1,6 @@
 const grafico = document.getElementById("grafico").getContext("2d");
+const preçoBtc = document.getElementById("preçoBtc");
+const moeda = document.getElementById("moeda");
 
 (function () {
   fetch(
@@ -15,9 +17,14 @@ const grafico = document.getElementById("grafico").getContext("2d");
     });
 })();
 
+let tipoDeMoeda = moeda.value;
+
+function trocarMoeda() {
+  tipoDeMoeda = moeda.value;
+}
+
 function buscarBitcoin(real) {
   var precoBrl = real;
-
   let dias = 5;
   fetch(
     `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=4V0TJJQB3286WVE8`
@@ -42,13 +49,25 @@ function buscarBitcoin(real) {
           return precoUsd;
         });
 
-        // let tempos = datas.map((date) => new Date(date).toLocaleString("pt-BR"));
+        let preçoDoDiaBrl = precosBitcoinBrl[0];
+        let preçoDoDiaBrlCon = preçoDoDiaBrl.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        });
+
+        let preçoDoDiaUsd = precos[0];
+        let preçoDoDiaUsdCon = preçoDoDiaUsd.toLocaleString.toLocaleString(
+          "en-US",
+          { style: "currency", currency: "USD" }
+        );
+
+        preçoBtc.innerHTML = `${preçoDoDiaBrlCon}`;
 
         const chartData = {
           labels: datas,
           datasets: [
             {
-              label: "Preço do Bitcoin",
+              label: "Preço do Bitcoin em brl",
               data: precosBitcoinBrl,
               backgroundColor: "rgba(255, 99, 132, 0.2)",
               borderColor: "rgba(255, 99, 132, 1)",
@@ -57,10 +76,8 @@ function buscarBitcoin(real) {
             },
           ],
         };
-
         const grafico = document.getElementById("grafico").getContext("2d");
         Chart.defaults.font.size = 12;
-
         const meuGrafico = new Chart(grafico, {
           type: "line",
           data: chartData,
